@@ -1,0 +1,19 @@
+data:
+  lookback_window: 60
+  forecast_horizon: 5
+
+model:
+  transformer:
+    d_model: 128
+    n_heads: 4
+    n_layers: 4
+    dropout: 0.1
+
+training:
+  batch_size: 32
+  lr: 0.0005
+  epochs: 20
+
+trading:
+  confidence_threshold: 0.7
+  max_position_pct: 0.1
