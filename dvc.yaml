@@ -1,0 +1,11 @@
+stages:
+  train:
+    cmd: python ml/training/train_transformer.py
+    deps:
+      - ml/
+      - data/
+    params:
+      - model
+      - training
+    outs:
+      - models/
