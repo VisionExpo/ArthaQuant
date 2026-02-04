@@ -1,34 +1,59 @@
-from ml.utils.wandb_utils import init_wandb, log_metrics, log_model_artifact
+import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader
+
+from ml.models.market_transformer import MarketTransformer
+from ml.utils.wandb_utils import init_wandb, log_metrics
 from ml.config.experiment import load_params
 
 
-def main():
+def train():
     params = load_params()
+
+    model = MarketTransformer(
+        input_dim=10,  # replace with actual feature count
+        d_model=params["model"]["transformer"]["d_model"],
+        n_heads=params["model"]["transformer"]["n_heads"],
+        n_layers=params["model"]["transformer"]["n_layers"],
+        dropout=params["model"]["transformer"]["dropout"],
+    )
+
+    optimizer = torch.optim.Adam(
+        model.parameters(), lr=params["training"]["lr"]
+    )
+
+    loss_fn = nn.MSELoss()
 
     init_wandb(
         project="arthaquant-multimodal",
-        run_name="transformer_price_v1",
+        run_name="market_transformer_v1",
         config=params,
-        tags=["transformer", "price-only"],
+        tags=["transformer", "price"],
     )
 
     for epoch in range(params["training"]["epochs"]):
-        train_loss = 0.0  # replace with real loss
-        val_loss = 0.0
+        model.train()
+        train_loss = 0.0
+
+        # placeholder loop
+        for _ in range(10):
+            x = torch.randn(32, params["data"]["lookback_window"], 10)
+            y = torch.randn(32)
+
+            out = model(x)
+            loss = loss_fn(out["expected_return"], y)
+
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+
+            train_loss += loss.item()
 
         log_metrics(
-            {
-                "train/loss": train_loss,
-                "val/loss": val_loss,
-            },
+            {"train/loss": train_loss / 10},
             step=epoch,
         )
 
-    log_model_artifact(
-        model_path="models/market_transformer.pt",
-        artifact_name="market_transformer_v1",
-    )
-
 
 if __name__ == "__main__":
-    main()
+    train()
