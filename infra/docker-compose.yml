@@ -1,58 +1,13 @@
+version: "3.9"
+
 services:
-  # 1. FastAPI Backend Service
   backend:
     build:
-      context: .
-      dockerfile: Dockerfile
-    env_file:
-      - .env
-    container_name: backend_api
-    command: uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+      context: ..
+      dockerfile: infra/Dockerfile
     ports:
       - "8000:8000"
     volumes:
-      - .:/app
+      - ../:/app
     environment:
-      - MLFLOW_TRACKING_URI=http://mlflow:5000
-    depends_on:
-      - mlflow
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
-
-  # 2. MLflow Service
-  mlflow:
-    image: ghcr.io/mlflow/mlflow:v3.4.0
-    container_name: mlflow_server
-    command: >
-      mlflow server
-      --host 0.0.0.0
-      --port 5000
-      --default-artifact-root /mlruns
-    ports:
-      - "5000:5000"
-    volumes:
-      - ./mlflow_data:/mlruns
-  
-  # 3. Streamlit Frontend Dashboard
-  frontend:
-    build:
-      context: ./frontend
-    container_name: frontend_dashboard
-    ports:
-      - "8501:8501"
-    volumes:
-      - ./frontend:/app
-    environment:
-      - BACKEND_API_URL=http://backend:8000
-    depends_on:
-      - backend
-
-# Defines a default network for all services to communicate
-networks:
-  default:
-    driver: bridge
+      - ENV=dev
