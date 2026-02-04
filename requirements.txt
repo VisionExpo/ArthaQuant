@@ -1,37 +1,15 @@
-# Core Data Science
-numpy<2.0
-pandas>=2.0.0
-scikit-learn
-scipy
-yfinance
-ta
-
-# API & Server
 fastapi
-uvicorn[standard]
-python-multipart
-joblib
+uvicorn
+pydantic
 
-# MLOps
-dvc[gdrive]
-mlflow
-evidently==0.4.21
-optuna
-
-# Deep Learning
-torch==2.1.0
-torchvision==0.16.0
-torchaudio==2.1.0
+torch
 transformers
-datasets
+numpy
+pandas
+scikit-learn
 
-# Frontend
-streamlit
+dvc
+wandb
+
 plotly
-matplotlib
-seaborn
-
-# Utils
-loguru
-python-dotenv
-tqdm
+streamlit
