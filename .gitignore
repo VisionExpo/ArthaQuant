@@ -1,27 +1,19 @@
-# Python virtual environment
-.venv/
-venv/
-
-# Python cache
 __pycache__/
-*.py[cod]
-
-# IDE and OS files
+*.pyc
+.env
+.env.*
 .vscode/
 .idea/
-*.DS_Store
 
-# Secrets
-.env
+# ML artifacts
+*.pt
+*.joblib
+*.pkl
 
-# --- DVC and MLflow ---
-# Ignore the directories that hold large files and experiment logs
-data/
-models/
+# Logs
+logs/
+wandb/
 
-# IMPORTANT: Now, make an exception. DO NOT ignore the DVC pointer files
-# and the .gitignore files that live inside these directories.
-!/**/.gitignore
-!/data/**/*.dvc
-!/models/**/*.dvc
-!/reports/**/*.dvc
+# OS
+.DS_Store
+Thumbs.db
