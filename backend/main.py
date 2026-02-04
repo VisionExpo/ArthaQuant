@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from backend.services import predictor
+from backend.services import inference
 from backend.routers import predict, backtest, drift, screener
 import logging
 
@@ -10,10 +10,10 @@ logging.basicConfig(level=logging.INFO)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Load all ML resources on startup
-    predictor.load_resources()
+    inference.load_resources()
     yield
     # Clean up resources on shutdown
-    predictor.cache.clear()
+    inference.cache.clear()
 
 app = FastAPI(
     title="Stock Market AI API (Refactored)",
@@ -28,7 +28,7 @@ app.include_router(drift.router)
 app.include_router(screener.router)
 
 # --- Other General Endpoints ---
-from backend.services.predictor import cache
+from backend.services.inference import cache
 from fastapi import HTTPException
 
 @app.get("/tickers")

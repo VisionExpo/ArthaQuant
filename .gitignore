@@ -18,8 +18,6 @@ __pycache__/
 # Ignore the directories that hold large files and experiment logs
 data/
 models/
-reports/
-mlflow_data/
 
 # IMPORTANT: Now, make an exception. DO NOT ignore the DVC pointer files
 # and the .gitignore files that live inside these directories.
